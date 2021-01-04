@@ -9,6 +9,9 @@
 #define	ELITE_RAYTRACING_RENDERER
 
 #include <cstdint>
+#include <vector>
+#include "Light.h"
+#include "Geometry.h"
 
 struct SDL_Window;
 struct SDL_Surface;
@@ -16,6 +19,7 @@ struct SDL_Surface;
 namespace Elite
 {
 	class PerspectiveCamera;
+	class Threadpool;
 
 	class Renderer final
 	{
@@ -38,6 +42,7 @@ namespace Elite
 		uint32_t* m_pBackBufferPixels;
 		uint32_t m_Width;
 		uint32_t m_Height;
+		Threadpool* m_Threadpool;
 	};
 }
 
