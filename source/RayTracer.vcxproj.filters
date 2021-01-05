@@ -176,9 +176,6 @@
     <ClInclude Include="TriangleMesh.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Threadpool.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">

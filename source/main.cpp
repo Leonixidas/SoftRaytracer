@@ -48,7 +48,7 @@ int main(int argc, char* args[])
 	Elite::SceneManager& sceneManager = Elite::SceneManager::GetInstance();
 	Elite::InputManager& inputManager = Elite::InputManager::GetInstance();
 	sceneManager.AddScene(new Elite::RayTraceScene{ "RaytracerScene"});
-	//sceneManager.AddScene(new Elite::BunnyScene{ "BunnyScene"});
+	sceneManager.AddScene(new Elite::BunnyScene{ "BunnyScene"});
 
 	std::cout << "Both scenes are initialized while initializing,\n";
 	std::cout << "check memory leaks by running the solution in debug,\nboth scenes will be initialized and the first scene will be loaded which won't take that long\n\n";

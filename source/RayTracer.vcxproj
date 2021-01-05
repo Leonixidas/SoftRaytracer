@@ -121,7 +121,6 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Subject.h" />
-    <ClInclude Include="Threadpool.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="TriangleMesh.h" />
   </ItemGroup>
