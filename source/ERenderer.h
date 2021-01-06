@@ -1,3 +1,4 @@
+#pragma once
 /*=============================================================================*/
 // Copyright 2017-2019 Elite Engine
 // Authors: Matthieu Delaere
@@ -9,6 +10,8 @@
 #define	ELITE_RAYTRACING_RENDERER
 
 #include <cstdint>
+#include "RayTracerEnums.h"
+#include <mutex>
 
 struct SDL_Window;
 struct SDL_Surface;
@@ -16,12 +19,15 @@ struct SDL_Surface;
 namespace Elite
 {
 	class PerspectiveCamera;
+	class Scene;
+	struct Ray;
+	class Threadpool;
 
 	class Renderer final
 	{
 	public:
 		Renderer(SDL_Window* pWindow);
-		~Renderer() = default;
+		~Renderer();
 
 		Renderer(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
@@ -31,6 +37,12 @@ namespace Elite
 		void Render();
 		bool SaveBackbufferToImage() const;
 
+		void FlipShadowsEnabled();
+
+		void SwitchRenderMode();
+
+		void Trace(uint32_t r, uint32_t c, Scene* scene, Ray ray, FMatrix4 lookat, float aspectRatio, float fov);
+
 	private:
 		SDL_Window* m_pWindow;
 		SDL_Surface* m_pFrontBuffer;
@@ -38,6 +50,13 @@ namespace Elite
 		uint32_t* m_pBackBufferPixels;
 		uint32_t m_Width;
 		uint32_t m_Height;
+
+		Threadpool* m_Threadpool;
+
+		std::mutex m_BufferMutex;
+
+		RenderMode m_RenderMode;
+		bool m_AreShadowsEnabled;
 	};
 }
 

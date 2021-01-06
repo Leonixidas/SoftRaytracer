@@ -52,10 +52,14 @@ bool Elite::Triangle::Hit(const Ray& ray, HitRecord& hit) const
 
 	if (Dot(m_Normal, Cross(a, pointToSide)) < 0.f) return false;
 
-	hit.m_TValue = t;
-	hit.m_HitPoint = hitPoint;
-	hit.m_Normal = m_Normal;
-	hit.m_pMaterial = m_pMat;
+	if (t < hit.m_TValue)
+	{
+		hit.m_TValue = t;
+		hit.m_HitPoint = hitPoint;
+		hit.m_Normal = m_Normal;
+		hit.m_pMaterial = m_pMat;
+		hit.m_HitSomething = true;
+	}
 
 	return true;
 }

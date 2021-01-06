@@ -25,6 +25,7 @@ namespace Elite
 		Material* m_pMaterial = nullptr;
 		float m_TValue{ FLT_MAX };
 		bool m_ShadowCalc = false;
+		bool m_HitSomething = false;
 	};
 
 	struct InputAction

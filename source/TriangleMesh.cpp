@@ -104,5 +104,6 @@ bool Elite::TriangleMesh::Hit(const Ray& ray, HitRecord& hit) const
 
 		gotHit = true;
 	}
+	hit.m_HitSomething = gotHit;
 	return gotHit;
 }

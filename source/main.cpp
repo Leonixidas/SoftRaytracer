@@ -46,6 +46,7 @@ int main(int argc, char* args[])
 	Elite::Timer& pTimer = Elite::Timer::GetInstance();
 	Elite::Renderer* pRenderer = new Elite::Renderer(pWindow);
 	Elite::SceneManager& sceneManager = Elite::SceneManager::GetInstance();
+	sceneManager.SetRenderer(pRenderer);
 	Elite::InputManager& inputManager = Elite::InputManager::GetInstance();
 	sceneManager.AddScene(new Elite::RayTraceScene{ "RaytracerScene"});
 	sceneManager.AddScene(new Elite::BunnyScene{ "BunnyScene"});

@@ -89,8 +89,8 @@ void Elite::BunnyScene::Update()
 		float x{}, y{};
 		input.GetMouseValues(x, y);
 
-		rotation.x += -y * deltaTime;
-		rotation.y += -x * deltaTime;
+		rotation.x += -y * 5 * deltaTime;
+		rotation.y += -x * 5 * deltaTime;
 	}
 	else SDL_SetRelativeMouseMode(SDL_FALSE);
 

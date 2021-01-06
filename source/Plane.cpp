@@ -22,6 +22,7 @@ bool Elite::Plane::Hit(const Ray& ray, HitRecord& hit) const
 		hit.m_HitPoint = ray.m_Origin + hit.m_TValue * ray.m_Direction;
 		hit.m_pMaterial = m_pMat;
 		hit.m_Normal = m_Normal;
+		hit.m_HitSomething = true;
 		return true;
 	}
 

@@ -19,7 +19,7 @@ bool Elite::Sphere::Hit(const Ray& ray, HitRecord& hit) const
 	// if it's larger than the radius squared, we know that the ray does not hit the sphere
 	if (odSQ > (m_Radius * m_Radius)) return false; 
 
-	float tHC = float(sqrt((m_Radius * m_Radius) - odSQ));
+	float tHC = sqrtf((m_Radius * m_Radius) - odSQ);
 
 	float tValue = tCA - tHC;
 
@@ -34,6 +34,8 @@ bool Elite::Sphere::Hit(const Ray& ray, HitRecord& hit) const
 		hit.m_pMaterial = m_pMat;
 
 		hit.m_Normal = GetNormalized(hit.m_HitPoint - m_Position);
+
+		hit.m_HitSomething = true;
 	}
 	
 	return true;

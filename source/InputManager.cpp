@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "InputManager.h"
 #include "Observer.h"
+#include "SceneManager.h"
+#include "ERenderer.h"
 
 bool Elite::InputManager::HandleInput()
 {
@@ -20,9 +22,9 @@ bool Elite::InputManager::HandleInput()
 			if (e.key.keysym.scancode == SDL_SCANCODE_X)
 				m_TakeScreenShot = true;
 			if (e.key.keysym.scancode == SDL_SCANCODE_T)
-				m_RenderMode = RenderMode((int(m_RenderMode) + 1) % 3);
+				SceneManager::GetInstance().GetRenderer()->SwitchRenderMode();
 			if (e.key.keysym.scancode == SDL_SCANCODE_Z)
-				m_ShadowsEnabled = !m_ShadowsEnabled;
+				SceneManager::GetInstance().GetRenderer()->FlipShadowsEnabled();
 
 			m_ReleasedKeys.push_back(e.key.keysym.scancode);
 			break;
