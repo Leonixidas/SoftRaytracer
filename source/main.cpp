@@ -14,6 +14,7 @@
 #include "SceneManager.h"
 #include "InputManager.h"
 #include "RayTraceScene.h"
+#include "GeometryTestScene.h"
 #include "BunnyScene.h"
 
 void ShutDown(SDL_Window* pWindow)
@@ -48,6 +49,7 @@ int main(int argc, char* args[])
 	Elite::SceneManager& sceneManager = Elite::SceneManager::GetInstance();
 	sceneManager.SetRenderer(pRenderer);
 	Elite::InputManager& inputManager = Elite::InputManager::GetInstance();
+	sceneManager.AddScene(new Elite::GeometryTestScene{ "GeoTest"});
 	sceneManager.AddScene(new Elite::RayTraceScene{ "RaytracerScene"});
 	sceneManager.AddScene(new Elite::BunnyScene{ "BunnyScene"});
 

@@ -35,7 +35,7 @@ namespace Elite
 
 		const FVector3 m_WorldUp{ 0.f,1.f,0.f };
 		const FVector3 m_WorldForward{ 0.f,0.f,-1.f };
-		const FVector3 m_WorldRight{ -1.f,0.f,0.f };
+		const FVector3 m_WorldRight{ 1.f,0.f,0.f };
 
 		FMatrix3 m_RotMat;
 		FVector3 m_Rotation;

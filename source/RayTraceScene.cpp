@@ -28,39 +28,39 @@ Elite::RayTraceScene::RayTraceScene(const std::string& sceneName)
 
 void Elite::RayTraceScene::Initialize()
 {
-	//FPoint3 pos1{ -2.5f,4.f,0.f }, pos2{ 0.f,4.f,0.f }, pos3{ 2.5f,4.f,0.f };
-	////DIELECTRICS
-	//AddGeometry(new Sphere{ pos1, new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, false, 1.f) });
-	//AddGeometry(new Sphere{ pos2, new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, false, 0.6f) });
-	//AddGeometry(new Sphere{ pos3, new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, false, 0.1f) });
+	FPoint3 pos1{ -2.5f,4.f,0.f }, pos2{ 0.f,4.f,0.f }, pos3{ 2.5f,4.f,0.f };
+	//DIELECTRICS
+	AddGeometry(new Sphere{ new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, false, 1.f) , Transform{pos1} });
+	AddGeometry(new Sphere{ new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, false, 0.6f), Transform{pos2} });
+	AddGeometry(new Sphere{ new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, false, 0.1f), Transform{pos3} });
 
-	////METALS
-	//pos1 = FPoint3{ -2.5f,1.f,0.f };
-	//pos2 = FPoint3{ 0.f,1.f,0.f };
-	//pos3 = FPoint3{ 2.5f,1.f,0.f };
-	//AddGeometry(new Sphere{ pos1, new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, true, 1.f) });
-	//AddGeometry(new Sphere{ pos2, new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, true, 0.6f) });
-	//AddGeometry(new Sphere{ pos3, new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, true, 0.1f) });
+	//METALS
+	pos1 = FPoint3{ -2.5f,1.f,0.f };
+	pos2 = FPoint3{ 0.f,1.f,0.f };
+	pos3 = FPoint3{ 2.5f,1.f,0.f };
+	AddGeometry(new Sphere{ new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, true, 1.f), Transform{pos1} });
+	AddGeometry(new Sphere{ new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, true, 0.6f), Transform{pos2} });
+	AddGeometry(new Sphere{ new Material_PBR(RGBColor{0.8f,0.8f,0.8f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, true, 0.1f), Transform{pos3} });
 
 
-	////TRIANGLES
-	//FVector3 v0{ -0.75f,1.5f,0.f }, v1{ -0.75f,0.f,0.f }, v2{ 0.75f,0.f,0.f };
-	//pos1 = FPoint3{ -2.5f, 6.f, 0.f };
-	//pos2 = FPoint3{ 0.f, 6.f, 0.f };
-	//pos3 = FPoint3{ 2.5f, 6.f, 0.f };
-	//m_LeftT = new Triangle{ v0,v1,v2, pos1, new Material_Lambert(RGBColor{1.f,1.f,1.f}), CullMode::BACK_FACE_CULLING };
-	//m_MiddleT = new Triangle{ v0,v1,v2, pos2, new Material_Lambert(RGBColor{1.f,1.f,1.f}), CullMode::FRONT_FACE_CULLING };
-	//m_RightT = new Triangle{ v0,v1,v2, pos3, new Material_Lambert(RGBColor{1.f,1.f,1.f}), CullMode::NO_CULLING };
-	//AddGeometry(m_LeftT);
-	//AddGeometry(m_MiddleT);
-	//AddGeometry(m_RightT);
+	//TRIANGLES
+	FVector3 v0{ -0.75f,1.5f,0.f }, v1{ -0.75f,0.f,0.f }, v2{ 0.75f,0.f,0.f };
+	pos1 = FPoint3{ -2.5f, 6.f, 0.f };
+	pos2 = FPoint3{ 0.f, 6.f, 0.f };
+	pos3 = FPoint3{ 2.5f, 6.f, 0.f };
+	m_LeftT = new Triangle{ v0,v1,v2, new Material_Lambert(RGBColor{1.f,1.f,1.f})	, Transform{pos1},	CullMode::BACK_FACE_CULLING };
+	m_MiddleT = new Triangle{ v0,v1,v2, new Material_Lambert(RGBColor{1.f,1.f,1.f})	, Transform{pos2}, CullMode::FRONT_FACE_CULLING };
+	m_RightT = new Triangle{ v0,v1,v2, new Material_Lambert(RGBColor{1.f,1.f,1.f})	, Transform{pos3}, CullMode::NO_CULLING };
+	AddGeometry(m_LeftT);
+	AddGeometry(m_MiddleT);
+	AddGeometry(m_RightT);
 
 	//WALLS
-	AddGeometry(new Plane{ FPoint3{0.f,0.f,0.f}, FVector3{0.f,1.f,0.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
-	AddGeometry(new Plane{ FPoint3{0.f,10.f,0.f}, FVector3{0.f,-1.f,0.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
-	AddGeometry(new Plane{ FPoint3{0.f,0.f,-9.f}, FVector3{0.f,0.f,1.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
-	AddGeometry(new Plane{ FPoint3{-6.f,0.f,0.f}, FVector3{1.f,0.f,0.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
-	AddGeometry(new Plane{ FPoint3{6.f,0.f,0.f}, FVector3{-1.f,0.f,0.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{0.f,0.f,0.f}, FPoint3{0.f,0.f,0.f}} });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{0.f,10.f,0.f}, FPoint3{180.f,0.f,0.f}} });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{0.f,0.f,-7.f}, FPoint3{90.f,0.f,0.f}} });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{-5.f,0.f,0.f}, FPoint3{0.f,0.f,-90.f}} });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{5.f,0.f,0.f}, FPoint3{0.f,0.f,90.f}} });
 
 	//Camera
 	PerspectiveCamera* cam = new PerspectiveCamera{ FPoint3{0.f,3.5f,12.f}, 45.f };
@@ -85,10 +85,10 @@ void Elite::RayTraceScene::Update()
 	InputManager& input = InputManager::GetInstance();
 	FVector3 translation{}, rotation{};
 
-	//float triangleRot = m_RotSpeed * deltaTime;
-	//m_LeftT->Rotate(FVector3{ 0.f,triangleRot, 0.f });
-	//m_MiddleT->Rotate(FVector3{ 0.f,triangleRot, 0.f });
-	//m_RightT->Rotate(FVector3{ 0.f,triangleRot, 0.f });
+	float triangleRot = m_RotSpeed * deltaTime;
+	m_LeftT->Rotate(FVector3{ 0.f,triangleRot, 0.f });
+	m_MiddleT->Rotate(FVector3{ 0.f,triangleRot, 0.f });
+	m_RightT->Rotate(FVector3{ 0.f,triangleRot, 0.f });
 
 	if (input.IsKeyPressed(ScanCode::SDL_SCANCODE_D)) translation.x += m_pCurrentCamera->GetCameraSpeed() * deltaTime;
 	if (input.IsKeyPressed(ScanCode::SDL_SCANCODE_A)) translation.x -= m_pCurrentCamera->GetCameraSpeed() * deltaTime;

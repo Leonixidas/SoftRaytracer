@@ -4,10 +4,10 @@
 #include <fstream>
 #include <sstream>
 
-Elite::TriangleMesh::TriangleMesh(const std::string& filePath, const FPoint3& pos, Material* pMat)
-	: Geometry(pos, pMat)
-	, m_Position(pos)
+Elite::TriangleMesh::TriangleMesh(const std::string& filePath, Material* pMat, const Transform& transform, bool isLight)
+	: Geometry(pMat, transform, isLight)
 	, m_FilePath(filePath)
+	, m_Area()
 {
 }
 
@@ -18,6 +18,7 @@ bool Elite::TriangleMesh::ReadOBJFile()
 	if (!input) return false;
 	std::string line{};
 	char first{};
+	FPoint3 pos = m_Transform.GetPosition();
 
 	while (!input.eof())
 	{
@@ -39,7 +40,7 @@ bool Elite::TriangleMesh::ReadOBJFile()
 			m_Indices.push_back(i0 - 1);
 			m_Indices.push_back(i1 - 1);
 			m_Indices.push_back(i2 - 1);
-			m_TriangleNormals.push_back(GetNormalized(Cross((m_Position + m_Vertices[i1-1]) - (m_Position + m_Vertices[i2 - 1]), (m_Position + m_Vertices[i1 - 1]) - (m_Position + m_Vertices[i0 - 1]))));
+			m_TriangleNormals.push_back(GetNormalized(Cross((pos + m_Vertices[i1-1]) - (pos + m_Vertices[i2 - 1]), (pos + m_Vertices[i1 - 1]) - (pos + m_Vertices[i0 - 1]))));
 			m_TriangleCenters.push_back((m_Vertices[i0 - 1] + m_Vertices[i1 - 1] + m_Vertices[i2 - 1]) / 3.f);
 		}
 			break;
@@ -62,6 +63,7 @@ bool Elite::TriangleMesh::Hit(const Ray& ray, HitRecord& hit) const
 	FVector3 v0{}, v1{}, v2{}, normal{}, center{};
 
 	bool gotHit{ false };
+	FPoint3 pos = m_Transform.GetPosition();
 
 	while (counter < size)
 	{
@@ -75,24 +77,24 @@ bool Elite::TriangleMesh::Hit(const Ray& ray, HitRecord& hit) const
 
 		if (AreEqual(dotVN, 0.f)) continue;
 
-		FVector3 L = (m_Position + center) - ray.m_Origin;
+		FVector3 L = (pos + center) - ray.m_Origin;
 		float t = Dot(L, normal) / Dot(ray.m_Direction, normal);
 
 		if (t < ray.m_Min || t > ray.m_Max || t > hit.m_TValue) continue;
 
 		FPoint3 hitPoint = ray.m_Origin + t * ray.m_Direction;
 
-		FVector3 pointToSide = hitPoint - (m_Position + v0);
+		FVector3 pointToSide = hitPoint - (pos + v0);
 		FVector3 a{ v1 - v0 };
 		FVector3 temp{ Cross(a,pointToSide) };
 		if (Dot(normal, temp) < 0.f) continue;
 
-		pointToSide = hitPoint - (m_Position + v1);
+		pointToSide = hitPoint - (pos + v1);
 		a = v2 - v1;
 
 		if (Dot(normal, Cross(a, pointToSide)) < 0.f) continue;
 
-		pointToSide = hitPoint - (m_Position + v2);
+		pointToSide = hitPoint - (pos + v2);
 		a = v0 - v2;
 
 		if (Dot(normal, Cross(a, pointToSide)) < 0.f) continue;

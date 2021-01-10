@@ -10,7 +10,7 @@ Elite::PerspectiveCamera::PerspectiveCamera(FPoint3 pos, float fov, FVector3 rot
 	, m_Rotation(rot)
 	, m_Forward(0.f,0.f,-1.f)
 	, m_Up(0.f,1.f,0.f)
-	, m_Right(-1.f,0.f,0.f)
+	, m_Right(1.f,0.f,0.f)
 	, m_LookatMat()
 {
 	CalculateLookatMatrix();
@@ -32,7 +32,7 @@ void Elite::PerspectiveCamera::Rotate(FVector3 rotation)
 //This value will be added to the current position
 void Elite::PerspectiveCamera::Translate(FVector3 translation)
 {
-	m_Position += m_Right * -translation.x + m_Forward * translation.z + m_Up * translation.y;
+	m_Position += m_Right * translation.x + m_Forward * translation.z + m_Up * translation.y;
 	CalculateLookatMatrix();
 }
 
@@ -46,8 +46,8 @@ void Elite::PerspectiveCamera::CalculateLookatMatrix()
 	m_RotMat = MakeRotationZYX(m_Rotation.x,m_Rotation.y,m_Rotation.z);
 
 	m_Forward = GetNormalized(m_RotMat * m_WorldForward);
-	m_Right =  GetNormalized(Cross(m_WorldUp, m_Forward));
-	m_Up = GetNormalized(Cross(m_Forward, m_Right)) ;
+	m_Right = GetNormalized(m_RotMat * m_WorldRight);
+	m_Up = GetNormalized(m_RotMat * m_WorldUp);
 
-	m_LookatMat = FMatrix4{ -m_Right,m_Up,-m_Forward,FVector4{m_Position.x, m_Position.y, m_Position.z, 1.f} };
+	m_LookatMat = FMatrix4{ m_Right,m_Up,m_Forward,FVector4{m_Position.x, m_Position.y, m_Position.z, 1.f} };
 }

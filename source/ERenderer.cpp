@@ -16,14 +16,14 @@
 
 Elite::Renderer::Renderer(SDL_Window * pWindow)
 	: m_pWindow( pWindow )
-	, m_pFrontBuffer( SDL_GetWindowSurface(pWindow) )
+	, m_pFrontBuffer(SDL_GetWindowSurface(pWindow))
 	, m_pBackBuffer()
 	, m_pBackBufferPixels()
 	, m_Width()
 	, m_Height()
 	, m_AreShadowsEnabled(false)
 	, m_RenderMode()
-	, m_Threadpool(new Threadpool(std::thread::hardware_concurrency() - 1))
+	, m_Threadpool(new Threadpool(std::thread::hardware_concurrency() + 1))
 {
 	//Initialize
 	int width, height = 0;
@@ -115,7 +115,7 @@ void Elite::Renderer::Trace(uint32_t r, uint32_t c, Scene* scene, Ray ray, FMatr
 
 	pixelPos.x = (2 * ((c + 0.5f) / m_Width) - 1) * aspectRatio * fov;
 	pixelPos.y = (1 - 2 * ((r + 0.5f) / m_Height)) * fov;
-	pixelPos.z = -1.f;
+	pixelPos.z = 1.f;
 	pixelPos.w = 1.f;
 	pixelPos = lookat * pixelPos;
 
@@ -177,7 +177,7 @@ void Elite::Renderer::Trace(uint32_t r, uint32_t c, Scene* scene, Ray ray, FMatr
 		finalColor.MaxToOne();
 	}
 
-	this->m_pBackBufferPixels[c + (r * this->m_Width)] = SDL_MapRGB(this->m_pBackBuffer->format,
+	m_pBackBufferPixels[c + (r * m_Width)] = SDL_MapRGB(m_pBackBuffer->format,
 		static_cast<uint8_t>(finalColor.r * 255.f),
 		static_cast<uint8_t>(finalColor.g * 255.f),
 		static_cast<uint8_t>(finalColor.b * 255.f));

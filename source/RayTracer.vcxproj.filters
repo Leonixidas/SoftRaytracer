@@ -179,6 +179,27 @@
     <ClInclude Include="Threadpool.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="EmissiveMaterial.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereLightScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaLight.h">
+      <Filter>Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Disk.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryTestScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">
@@ -259,6 +280,27 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="TriangleMesh.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="EmissiveMaterial.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereLightScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaLight.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryTestScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Disk.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

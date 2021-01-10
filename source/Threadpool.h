@@ -9,6 +9,10 @@
 #include <functional>
 #include <stdexcept>
 
+//this threadpool implementation has been based on https://github.com/progschj/ThreadPool 
+//I added some extra functionality to let the caller wait for the worker threads to finish their tasks
+//and some additional scopes to prevent deadlock or data races
+
 namespace Elite
 {
 	class Threadpool

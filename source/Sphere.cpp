@@ -1,15 +1,16 @@
 #include "pch.h"
 #include "Sphere.h"
 
-Elite::Sphere::Sphere(FPoint3 pos, Material* pMat, float radius)
-	: Geometry(pos, pMat)
+Elite::Sphere::Sphere(Material* pMat, const Transform& transform, float radius, bool isLight)
+	: Geometry(pMat, transform, isLight)
 	, m_Radius(radius)
 {
 }
 
 bool Elite::Sphere::Hit(const Ray& ray, HitRecord& hit) const
 {
-	FVector3 toCenter{ m_Position - ray.m_Origin };
+	FPoint3 pos = m_Transform.GetPosition();
+	FVector3 toCenter{ pos - ray.m_Origin };
 
 	float tCA = Dot(toCenter, ray.m_Direction);
 	if (tCA < 0.f) return false;
@@ -33,7 +34,7 @@ bool Elite::Sphere::Hit(const Ray& ray, HitRecord& hit) const
 
 		hit.m_pMaterial = m_pMat;
 
-		hit.m_Normal = GetNormalized(hit.m_HitPoint - m_Position);
+		hit.m_Normal = GetNormalized(hit.m_HitPoint - pos);
 
 		hit.m_HitSomething = true;
 	}

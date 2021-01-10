@@ -21,18 +21,18 @@ Elite::BunnyScene::BunnyScene(const std::string& sceneName)
 
 void Elite::BunnyScene::Initialize()
 {
-	TriangleMesh* bunny = new TriangleMesh{ "lowpoly_bunny.obj", FPoint3{0.f,0.f,0.f}, new Material_PBR(RGBColor{1.f,1.f,1.f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, false, 0.5f) };
+	TriangleMesh* bunny = new TriangleMesh{ "lowpoly_bunny.obj", new Material_PBR(RGBColor{1.f,1.f,1.f}, 1.f, RGBColor{0.4f,0.4f,0.4f}, false, 0.5f) };
 
 	if (!bunny->ReadOBJFile()) return;
 
 	AddGeometry(bunny);
 
 	//WALLS
-	AddGeometry(new Plane{ FPoint3{0.f,0.f,0.f}, FVector3{0.f,1.f,0.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
-	AddGeometry(new Plane{ FPoint3{0.f,10.f,0.f}, FVector3{0.f,-1.f,0.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
-	AddGeometry(new Plane{ FPoint3{0.f,0.f,-7.f}, FVector3{0.f,0.f,1.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
-	AddGeometry(new Plane{ FPoint3{-5.f,0.f,0.f}, FVector3{1.f,0.f,0.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
-	AddGeometry(new Plane{ FPoint3{5.f,0.f,0.f}, FVector3{-1.f,0.f,0.f}, new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}) });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{0.f,0.f,0.f}, FPoint3{0.f,0.f,0.f}} });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{0.f,10.f,0.f}, FPoint3{180.f,0.f,0.f}} });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{0.f,0.f,-7.f}, FPoint3{90.f,0.f,0.f}} });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{-5.f,0.f,0.f}, FPoint3{0.f,0.f,90.f}} });
+	AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{5.f,0.f,0.f}, FPoint3{0.f,0.f,-90.f}} });
 
 	//Camera
 	PerspectiveCamera* cam = new PerspectiveCamera{ FPoint3{0.f,2.f,10.f}, 45.f };

@@ -76,13 +76,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AreaLight.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BasicMaterial.h" />
     <ClInclude Include="BRDF.h" />
     <ClInclude Include="BunnyScene.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Disk.h" />
+    <ClInclude Include="EmissiveMaterial.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GeometryComponent.h" />
+    <ClInclude Include="GeometryTestScene.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Light.h" />
@@ -116,22 +120,29 @@
     <ClInclude Include="RayTracerEnums.h" />
     <ClInclude Include="RayTracerStructs.h" />
     <ClInclude Include="RayTraceScene.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="SphereLightScene.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Threadpool.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="TriangleMesh.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AreaLight.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="BasicMaterial.cpp" />
     <ClCompile Include="BunnyScene.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="Disk.cpp" />
+    <ClCompile Include="EmissiveMaterial.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GeometryComponent.cpp" />
+    <ClCompile Include="GeometryTestScene.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -151,10 +162,13 @@
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RayTraceScene.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="SphereLightScene.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="TriangleMesh.cpp" />
   </ItemGroup>

@@ -1,17 +1,17 @@
 #include "pch.h"
 #include "Plane.h"
 
-Elite::Plane::Plane(FPoint3 pos, FVector3 normal, Material* pMat)
-	: Geometry(pos, pMat)
-	, m_Normal(normal)
+Elite::Plane::Plane(Material* pMat, const Transform& transform)
+	: Geometry(pMat, transform)
 {
 }
 
 bool Elite::Plane::Hit(const Ray& ray, HitRecord& hit) const
 {
-	FVector3 toPlane{ m_Position - ray.m_Origin };
-	float dotToPlane = Dot(toPlane, m_Normal);
-	float dotToPoint = Dot(ray.m_Direction, m_Normal);
+	FVector3 toPlane{ m_Transform.GetPosition() - ray.m_Origin };
+	FVector3 normal = m_Transform.GetUpVector();
+	float dotToPlane = Dot(toPlane, normal);
+	float dotToPoint = Dot(ray.m_Direction, normal);
 	float tValue = dotToPlane / dotToPoint;
 
 	if (tValue > hit.m_TValue) return false;
@@ -21,7 +21,7 @@ bool Elite::Plane::Hit(const Ray& ray, HitRecord& hit) const
 		hit.m_TValue = tValue;
 		hit.m_HitPoint = ray.m_Origin + hit.m_TValue * ray.m_Direction;
 		hit.m_pMaterial = m_pMat;
-		hit.m_Normal = m_Normal;
+		hit.m_Normal = normal;
 		hit.m_HitSomething = true;
 		return true;
 	}

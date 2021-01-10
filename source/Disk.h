@@ -3,16 +3,18 @@
 
 namespace Elite
 {
-	class Sphere : public Geometry
+	class Disk : public Geometry
 	{
 	public:
-		Sphere(Material* pMat, const Transform& transform = {}, float radius = 1.f, bool isLight = false);
-		~Sphere() = default;
+		Disk(Material* pMat, const Transform& transform = {}, float radius = 1.f, bool isLight = false);
+		virtual ~Disk() = default;
 
 		virtual bool Hit(const Ray& ray, HitRecord& hit) const override;
 
 	private:
 		float m_Radius;
 	};
-}
 
+	
+
+}

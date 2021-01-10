@@ -7,7 +7,7 @@ namespace Elite
 	class Triangle : public Geometry
 	{
 	public:
-		Triangle(const FVector3& v0, const FVector3& v1, const FVector3& v2, const FPoint3& pos, Material* pMat, CullMode cullmode = CullMode::BACK_FACE_CULLING);
+		Triangle(const FVector3& v0, const FVector3& v1, const FVector3& v2, Material* pMat, const Transform& transform = {}, CullMode cullmode = CullMode::BACK_FACE_CULLING, bool isLight = false);
 		~Triangle() = default;
 
 		virtual bool Hit(const Ray& ray, HitRecord& hit) const override;
