@@ -8,9 +8,9 @@ Elite::PointLight::PointLight(FPoint3 pos, RGBColor color, float lightIntensity)
 {
 }
 
-Elite::RGBColor Elite::PointLight::CalculateLight(const FPoint3& pointToShade)
+Elite::RGBColor Elite::PointLight::CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf)
 {
-	return (m_LightColor * m_LightIntensity) / SqrMagnitude(m_Position - pointToShade);
+	return (m_LightColor * m_LightIntensity) / SqrMagnitude(m_Position - hit.m_HitPoint);
 }
 
 void Elite::PointLight::GetLightDirection(HitRecord& hit)

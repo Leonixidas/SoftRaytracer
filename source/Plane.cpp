@@ -23,6 +23,7 @@ bool Elite::Plane::Hit(const Ray& ray, HitRecord& hit) const
 		hit.m_pMaterial = m_pMat;
 		hit.m_Normal = normal;
 		hit.m_HitSomething = true;
+		hit.m_IsLight = m_IsLight;
 		return true;
 	}
 

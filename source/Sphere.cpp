@@ -37,7 +37,13 @@ bool Elite::Sphere::Hit(const Ray& ray, HitRecord& hit) const
 		hit.m_Normal = GetNormalized(hit.m_HitPoint - pos);
 
 		hit.m_HitSomething = true;
+		hit.m_IsLight = m_IsLight;
 	}
 	
 	return true;
+}
+
+Elite::FPoint3 Elite::Sphere::GetRandomSurfacePoint() const
+{
+	return FPoint3();
 }

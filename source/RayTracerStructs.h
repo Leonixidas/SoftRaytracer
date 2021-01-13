@@ -26,6 +26,7 @@ namespace Elite
 		float m_TValue{ FLT_MAX };
 		bool m_ShadowCalc = false;
 		bool m_HitSomething = false;
+		bool m_IsLight = false;
 	};
 
 	struct InputAction

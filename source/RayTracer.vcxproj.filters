@@ -200,6 +200,9 @@
     <ClInclude Include="GeometryTestScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="DiskLightScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ERenderer.cpp">
@@ -302,6 +305,9 @@
     </ClCompile>
     <ClCompile Include="Disk.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DiskLightScene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

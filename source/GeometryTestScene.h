@@ -13,8 +13,5 @@ namespace Elite
 
 		virtual void Initialize() override;
 		virtual void Update() override;
-
-	private:
-		PointLight* m_LeftPL, * m_RightPL, * m_BackPL;
 	};
 }

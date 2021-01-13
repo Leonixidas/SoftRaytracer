@@ -6,7 +6,7 @@ namespace Elite
 	Rectangle::Rectangle(Material* pMat, const Transform& transform, bool isLight /*= false*/)
 		: Geometry(pMat, transform, isLight)
 	{
-		auto tempMat = m_Transform.GetTransformMatrix();
+		FMatrix4 tempMat = m_Transform.GetTransformMatrix();
 		m_Vertices.push_back(FVector3(tempMat * FVector4{ -0.5f,0.f,0.5f, 1.f }));
 		m_Vertices.push_back(FVector3(tempMat * FVector4{ -0.5f,0.f,-0.5f, 1.f }));
 		m_Vertices.push_back(FVector3(tempMat * FVector4{ 0.5f,0.f,0.5f, 1.f }));
@@ -65,9 +65,18 @@ namespace Elite
 			hit.m_Normal = normal;
 			hit.m_pMaterial = m_pMat;
 			hit.m_HitSomething = true;
+			hit.m_IsLight = m_IsLight;
+			hit.m_IncomingLightDirection = normal;
 		}
 
 		return true;
+	}
+
+	FPoint3 Rectangle::GetRandomSurfacePoint() const
+	{
+		float randomX = RandomBinomial(0.5f);
+		float randomZ = RandomBinomial(0.5f);
+		return FPoint3(m_Transform.GetTransformMatrix() * FPoint4(randomX, 0.f, randomZ, 1.f));
 	}
 
 }

@@ -107,5 +107,11 @@ bool Elite::TriangleMesh::Hit(const Ray& ray, HitRecord& hit) const
 		gotHit = true;
 	}
 	hit.m_HitSomething = gotHit;
+	hit.m_IsLight = m_IsLight;
 	return gotHit;
+}
+
+Elite::FPoint3 Elite::TriangleMesh::GetRandomSurfacePoint() const
+{
+	return FPoint3();
 }

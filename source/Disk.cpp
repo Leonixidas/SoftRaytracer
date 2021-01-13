@@ -30,9 +30,18 @@ namespace Elite
 			hit.m_Normal = normal;
 			hit.m_pMaterial = m_pMat;
 			hit.m_HitSomething = true;
+			hit.m_IsLight = m_IsLight;
 			return true;
 		}
 
 		return false;
+	}
+	FPoint3 Disk::GetRandomSurfacePoint() const
+	{
+		float theta = 2 * (float)E_PI * RandomFloat();
+		float r = (float)sqrt(RandomFloat());
+		float randomX = m_Radius * r * (float)cos(theta);
+		float randomZ = m_Radius * r * (float)sin(theta);
+		return FPoint3(m_Transform.GetTransformMatrix() * FPoint4(randomX, 0.f, randomZ));
 	}
 }

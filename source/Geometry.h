@@ -24,6 +24,7 @@ namespace Elite
 		bool IsALight() { return m_IsLight; }
 
 		virtual bool Hit(const Ray& ray, HitRecord& hit) const = 0;
+		virtual FPoint3 GetRandomSurfacePoint() const = 0;
 
 	protected:
 		Transform m_Transform;

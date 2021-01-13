@@ -24,6 +24,7 @@ Elite::Renderer::Renderer(SDL_Window * pWindow)
 	, m_AreShadowsEnabled(false)
 	, m_RenderMode()
 	, m_Threadpool(new Threadpool(std::thread::hardware_concurrency() + 1))
+	, m_RaysPerPixel(10)
 {
 	//Initialize
 	int width, height = 0;
@@ -129,51 +130,69 @@ void Elite::Renderer::Trace(uint32_t r, uint32_t c, Scene* scene, Ray ray, FMatr
 
 	if (hit.m_HitSomething)
 	{
-		for (size_t j{}; j < lights.size(); ++j)
+		if (!hit.m_IsLight)
 		{
-			if (!lights[j]->IsEnabled()) continue;
-
-			hitToLight = {};
-
-			lights[j]->GetLightDirection(hit);
-			if (!AreEqual(SqrMagnitude(hit.m_IncomingLightDirection), 1.f))
-				rayToLight.m_Max = Normalize(hit.m_IncomingLightDirection);
-			else rayToLight.m_Max = FLT_MAX;
-
-			rayToLight.m_Direction = -hit.m_IncomingLightDirection;
-			rayToLight.m_Origin = hit.m_HitPoint;
-
-			if (m_AreShadowsEnabled)
+			for (size_t j{}; j < lights.size(); ++j)
 			{
-				hitToLight.m_ShadowCalc = true;
+				if (!lights[j]->IsEnabled()) continue;
 
-				for (Geometry* g : geom)
+				hitToLight = {};
+
+				lights[j]->GetLightDirection(hit);
+				//if (!AreEqual(SqrMagnitude(hit.m_IncomingLightDirection), 1.f))
+				//	rayToLight.m_Max = Normalize(hit.m_IncomingLightDirection);
+				//else rayToLight.m_Max = FLT_MAX;
+
+				//rayToLight.m_Direction = -hit.m_IncomingLightDirection;
+				//rayToLight.m_Origin = hit.m_HitPoint;
+
+				/*if (m_AreShadowsEnabled)
 				{
-					if (g->Hit(rayToLight, hitToLight))
-						break;
+					hitToLight.m_ShadowCalc = true;
+
+					for (Geometry* g : geom)
+					{
+						if (g->Hit(rayToLight, hitToLight))
+							break;
+					}
+
+					if (hitToLight.m_HitSomething) continue;
+				}*/
+
+
+				/*switch (m_RenderMode)
+				{
+				case RenderMode::COMBINED:
+					finalColor += lights[j]->CalculateLight(hit) * hit.m_pMaterial->Shade(hit, -ray.m_Direction, -hit.m_IncomingLightDirection) * dotL;
+					break;
+				case RenderMode::IRRADIANCE_ONLY:
+					finalColor += lights[j]->CalculateLight(hit) * dotL;
+					break;
+				case RenderMode::BRDF_ONLY:
+					finalColor += hit.m_pMaterial->Shade(hit, -ray.m_Direction, -hit.m_IncomingLightDirection) * dotL;
+					break;
+				}*/
+
+				FVector3 wi{};
+				float pdf{};
+				RGBColor tempColor{};
+				for (int i{}; i < m_RaysPerPixel; ++i)
+				{
+					//Area light calculation
+					RGBColor shade = hit.m_pMaterial->Shade(hit, -ray.m_Direction, wi);
+					RGBColor light = lights[j]->CalculateLight(hit, wi, pdf);
+					float dotL = Dot(hit.m_Normal, wi);
+					if (dotL < 0.f) continue;
+					tempColor += shade * light * dotL / pdf;
 				}
-
-				if (hitToLight.m_HitSomething) continue;
-			}
-
-			float dotL = Dot(hit.m_Normal, -hit.m_IncomingLightDirection);
-
-			if (dotL < 0.f) continue;
-
-			switch (m_RenderMode)
-			{
-			case RenderMode::COMBINED:
-				finalColor += lights[j]->CalculateLight(hit.m_HitPoint) * hit.m_pMaterial->Shade(hit, -ray.m_Direction, -hit.m_IncomingLightDirection) * dotL;
-				break;
-			case RenderMode::IRRADIANCE_ONLY:
-				finalColor += lights[j]->CalculateLight(hit.m_HitPoint) * dotL;
-				break;
-			case RenderMode::BRDF_ONLY:
-				finalColor += hit.m_pMaterial->Shade(hit, -ray.m_Direction, -hit.m_IncomingLightDirection) * dotL;
-				break;
+				finalColor += tempColor / float(m_RaysPerPixel);
 			}
 		}
-
+		else
+		{
+			finalColor = hit.m_pMaterial->GetMaterialColor();
+		}
+		
 		finalColor.MaxToOne();
 	}
 

@@ -17,7 +17,7 @@ namespace Elite
 		RectLight(Material* mat, const Transform& transform = {}, float intensity = 1.f);
 		virtual ~RectLight() = default;
 
-		virtual RGBColor CalculateLight(const FPoint3& pointToShade) override;
+		virtual RGBColor CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf) override;
 		virtual void GetLightDirection(HitRecord& hit) override;
 	};
 
@@ -30,7 +30,7 @@ namespace Elite
 		DiskLight(Material* mat, const Transform& transform = {}, float radius = 1.f, float intensity = 1.f);
 		virtual ~DiskLight() = default;
 
-		virtual RGBColor CalculateLight(const FPoint3& pointToShade) override;
+		virtual RGBColor CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf) override;
 		virtual void GetLightDirection(HitRecord& hit) override;
 	};
 
@@ -44,7 +44,7 @@ namespace Elite
 		SphereLight(Material* mat, const Transform& transform = {}, float intensity = 1.f, float radius = 1.f);
 		virtual ~SphereLight() = default;
 
-		virtual RGBColor CalculateLight(const FPoint3& pointToShade) override;
+		virtual RGBColor CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf) override;
 		virtual void GetLightDirection(HitRecord& hit) override;
 	};
 }

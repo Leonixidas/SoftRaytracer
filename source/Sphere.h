@@ -10,6 +10,7 @@ namespace Elite
 		~Sphere() = default;
 
 		virtual bool Hit(const Ray& ray, HitRecord& hit) const override;
+		virtual FPoint3 GetRandomSurfacePoint() const override;
 
 	private:
 		float m_Radius;

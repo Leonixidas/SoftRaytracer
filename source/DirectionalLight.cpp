@@ -8,7 +8,7 @@ Elite::DirectionalLight::DirectionalLight(const FVector3& lightDirection, const 
 {
 }
 
-Elite::RGBColor Elite::DirectionalLight::CalculateLight(const FPoint3& pointToShade)
+Elite::RGBColor Elite::DirectionalLight::CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf)
 {
 	return m_LightColor * m_LightIntensity;
 }

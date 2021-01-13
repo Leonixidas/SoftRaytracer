@@ -61,9 +61,15 @@ bool Elite::Triangle::Hit(const Ray& ray, HitRecord& hit) const
 		hit.m_Normal = m_Normal;
 		hit.m_pMaterial = m_pMat;
 		hit.m_HitSomething = true;
+		hit.m_IsLight = m_IsLight;
 	}
 
 	return true;
+}
+
+Elite::FPoint3 Elite::Triangle::GetRandomSurfacePoint() const
+{
+	return FPoint3();
 }
 
 void Elite::Triangle::Rotate(FVector3 rotation)

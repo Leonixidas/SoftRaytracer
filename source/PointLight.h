@@ -10,7 +10,7 @@ namespace Elite
 	public:
 		PointLight(FPoint3 pos, RGBColor color = RGBColor{ 1.f,1.f,1.f }, float lightIntensity = 10);
 		~PointLight() = default;
-		virtual RGBColor CalculateLight(const FPoint3& pointToShade) override;
+		virtual RGBColor CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf) override;
 		virtual void GetLightDirection(HitRecord& hit) override;
 		const FPoint3& GetLightPosition() { return m_Position; }
 

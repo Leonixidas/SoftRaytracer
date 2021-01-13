@@ -11,7 +11,7 @@ namespace Elite
 		explicit Light(const RGBColor& lightColor, float lightIntensity);
 		virtual ~Light() = default;
 
-		virtual RGBColor CalculateLight(const FPoint3& pointToShade) = 0;
+		virtual RGBColor CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf) = 0;
 		virtual void GetLightDirection(HitRecord& hit) = 0;
 
 		void PressLightSwitch() { m_IsEnabled = !m_IsEnabled; }

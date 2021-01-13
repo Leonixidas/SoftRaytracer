@@ -11,6 +11,7 @@ namespace Elite
 		~Triangle() = default;
 
 		virtual bool Hit(const Ray& ray, HitRecord& hit) const override;
+		virtual FPoint3 GetRandomSurfacePoint() const override;
 
 		void Rotate(FVector3 rotation);
 		void Translate(FVector3 translation);

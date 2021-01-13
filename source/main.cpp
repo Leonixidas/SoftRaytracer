@@ -15,6 +15,7 @@
 #include "InputManager.h"
 #include "RayTraceScene.h"
 #include "GeometryTestScene.h"
+#include "DiskLightScene.h"
 #include "BunnyScene.h"
 
 void ShutDown(SDL_Window* pWindow)
@@ -49,9 +50,8 @@ int main(int argc, char* args[])
 	Elite::SceneManager& sceneManager = Elite::SceneManager::GetInstance();
 	sceneManager.SetRenderer(pRenderer);
 	Elite::InputManager& inputManager = Elite::InputManager::GetInstance();
+	sceneManager.AddScene(new Elite::DiskLightScene{ "DiskTest"});
 	sceneManager.AddScene(new Elite::GeometryTestScene{ "GeoTest"});
-	sceneManager.AddScene(new Elite::RayTraceScene{ "RaytracerScene"});
-	sceneManager.AddScene(new Elite::BunnyScene{ "BunnyScene"});
 
 	std::cout << "Both scenes are initialized while initializing,\n";
 	std::cout << "check memory leaks by running the solution in debug,\nboth scenes will be initialized and the first scene will be loaded which won't take that long\n\n";

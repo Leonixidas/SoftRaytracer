@@ -14,9 +14,20 @@ namespace Elite
 	{
 	}
 
-	RGBColor RectLight::CalculateLight(const FPoint3& pointToShade)
+	RGBColor RectLight::CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf)
 	{
-		return RGBColor{};
+		FPoint3 randomPoint = GetRandomSurfacePoint();
+		wi = randomPoint - hit.m_HitPoint;
+		float distanceSqrd = SqrMagnitude(wi);
+		wi = GetNormalized(wi);
+
+		FPoint3 scale = m_Transform.GetScale();
+		float lightArea = scale.x * scale.z;
+
+		float angle = Dot(-wi, m_Transform.GetUpVector());
+		pdf =  distanceSqrd / (angle * lightArea);
+	
+		return angle > 0.f ? m_pMat->GetMaterialColor() * lightArea * float(E_PI) : RGBColor();
 	}
 
 	void RectLight::GetLightDirection(HitRecord& hit)
@@ -34,9 +45,18 @@ namespace Elite
 	{
 	}
 
-	RGBColor DiskLight::CalculateLight(const FPoint3& pointToShade)
+	RGBColor DiskLight::CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf)
 	{
-		return RGBColor();
+		FPoint3 randomPoint = GetRandomSurfacePoint();
+		wi = randomPoint - hit.m_HitPoint;
+		float distanceSqrd = SqrMagnitude(wi);
+		wi = GetNormalized(wi);
+		
+		float lightArea = (float)E_PI * (m_Radius * m_Radius);
+		float angle = Dot(-wi, m_Transform.GetUpVector());
+		pdf = distanceSqrd / (angle * lightArea);
+
+		return angle > 0.f ? m_pMat->GetMaterialColor() * lightArea * float(E_PI): RGBColor();
 	}
 
 	void DiskLight::GetLightDirection(HitRecord& hit)
@@ -54,7 +74,7 @@ namespace Elite
 
 	}
 
-	Elite::RGBColor SphereLight::CalculateLight(const FPoint3& pointToShade)
+	Elite::RGBColor SphereLight::CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf)
 	{
 		return RGBColor();
 	}

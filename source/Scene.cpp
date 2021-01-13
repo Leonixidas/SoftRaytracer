@@ -18,7 +18,10 @@ Elite::Scene::~Scene()
 		delete o;
 
 	for (Geometry* geo : m_Geometry)
-		delete geo;
+	{
+		if(!geo->IsALight())
+			delete geo;
+	}
 
 	for (Light* l : m_Lights)
 		delete l;

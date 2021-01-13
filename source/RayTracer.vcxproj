@@ -83,6 +83,7 @@
     <ClInclude Include="BunnyScene.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Disk.h" />
+    <ClInclude Include="DiskLightScene.h" />
     <ClInclude Include="EmissiveMaterial.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GeometryComponent.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="BunnyScene.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="Disk.cpp" />
+    <ClCompile Include="DiskLightScene.cpp" />
     <ClCompile Include="EmissiveMaterial.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GeometryComponent.cpp" />

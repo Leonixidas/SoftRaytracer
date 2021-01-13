@@ -57,6 +57,7 @@ namespace Elite
 
 		RenderMode m_RenderMode;
 		bool m_AreShadowsEnabled;
+		int m_RaysPerPixel;
 	};
 }
 
