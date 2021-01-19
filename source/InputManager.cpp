@@ -7,7 +7,6 @@
 bool Elite::InputManager::HandleInput()
 {
 	SDL_Event e;
-	bool isQuiting{};
 	m_TakeScreenShot = false;
 	m_ReleasedKeys.clear();
 
@@ -16,7 +15,7 @@ bool Elite::InputManager::HandleInput()
 		switch (e.type)
 		{
 		case SDL_QUIT:
-			isQuiting = true;
+			m_Quit = true;
 			break;
 		case SDL_KEYUP:
 			if (e.key.keysym.scancode == SDL_SCANCODE_X)
@@ -34,7 +33,7 @@ bool Elite::InputManager::HandleInput()
 	m_pKeyboardState = SDL_GetKeyboardState(NULL);
 	m_MouseState = SDL_GetRelativeMouseState(&m_MouseXValue, &m_MouseYValue);
 
-	return isQuiting;
+	return m_Quit;
 }
 
 bool Elite::InputManager::IsKeyPressed(const ScanCode keyCode)
@@ -57,3 +56,5 @@ void Elite::InputManager::GetMouseValues(float& x, float& y)
 	x = float(m_MouseXValue);
 	y = float(m_MouseYValue);
 }
+
+

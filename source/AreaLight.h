@@ -3,6 +3,7 @@
 #include "Rectangle.h"
 #include "Sphere.h"
 #include "Disk.h"
+#include "TriangleMesh.h"
 
 namespace Elite
 {
@@ -43,6 +44,20 @@ namespace Elite
 	public:
 		SphereLight(Material* mat, const Transform& transform = {}, float intensity = 1.f, float radius = 1.f);
 		virtual ~SphereLight() = default;
+
+		virtual RGBColor CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf) override;
+		virtual void GetLightDirection(HitRecord& hit) override;
+	};
+
+	//------------------------------------------//
+	//               Mesh LIGHT                 //
+	//------------------------------------------//
+
+	class MeshLight : public Light, public TriangleMesh
+	{
+	public:
+		MeshLight(const std::string& filePath, Material* pMat, const Transform& transform = {}, float intensity = 1.f);
+		virtual ~MeshLight() = default;
 
 		virtual RGBColor CalculateLight(const HitRecord& hit, FVector3& wi, float& pdf) override;
 		virtual void GetLightDirection(HitRecord& hit) override;

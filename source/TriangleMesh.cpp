@@ -7,7 +7,6 @@
 Elite::TriangleMesh::TriangleMesh(const std::string& filePath, Material* pMat, const Transform& transform, bool isLight)
 	: Geometry(pMat, transform, isLight)
 	, m_FilePath(filePath)
-	, m_Area()
 {
 }
 
@@ -37,11 +36,16 @@ bool Elite::TriangleMesh::ReadOBJFile()
 		{
 			unsigned int i0{}, i1{}, i2{};
 			input >> i0 >> i1 >> i2;
-			m_Indices.push_back(i0 - 1);
-			m_Indices.push_back(i1 - 1);
-			m_Indices.push_back(i2 - 1);
-			m_TriangleNormals.push_back(GetNormalized(Cross((pos + m_Vertices[i1-1]) - (pos + m_Vertices[i2 - 1]), (pos + m_Vertices[i1 - 1]) - (pos + m_Vertices[i0 - 1]))));
-			m_TriangleCenters.push_back((m_Vertices[i0 - 1] + m_Vertices[i1 - 1] + m_Vertices[i2 - 1]) / 3.f);
+			--i0;
+			--i1;
+			--i2;
+			m_Indices.push_back(i0);
+			m_Indices.push_back(i1);
+			m_Indices.push_back(i2);
+			FVector3 v0{ m_Vertices[i0] }, v1{ m_Vertices[i1] };
+			m_TriangleAreas.push_back(Magnitude(Cross((pos + m_Vertices[i1]) - (pos + m_Vertices[i2]), (pos + m_Vertices[i1]) - (pos + m_Vertices[i0]))) / 2.f);
+			m_TriangleNormals.push_back(GetNormalized(Cross((pos + m_Vertices[i1]) - (pos + m_Vertices[i2]), (pos + m_Vertices[i1]) - (pos + m_Vertices[i0]))));
+			m_TriangleCenters.push_back((m_Vertices[i0] + m_Vertices[i1] + m_Vertices[i2]) / 3.f);
 		}
 			break;
 		default:
@@ -103,15 +107,40 @@ bool Elite::TriangleMesh::Hit(const Ray& ray, HitRecord& hit) const
 		hit.m_HitPoint = hitPoint;
 		hit.m_Normal = normal;
 		hit.m_pMaterial = m_pMat;
-
+		hit.m_IsLight = true;
 		gotHit = true;
 	}
-	hit.m_HitSomething = gotHit;
-	hit.m_IsLight = m_IsLight;
+	
 	return gotHit;
 }
 
 Elite::FPoint3 Elite::TriangleMesh::GetRandomSurfacePoint() const
 {
 	return FPoint3();
+}
+
+std::vector<unsigned int> Elite::TriangleMesh::GetVisibleTriangles(const FPoint3& pointInSpace, float& visibleArea)
+{
+	size_t counter{}, triangleCounter{};
+	size_t size{ m_TriangleNormals.size() };
+	FVector3 v0{}, v1{}, v2{}, normal{}, toCenter{};
+
+	std::vector<unsigned int> visibleTriangles;
+	bool gotHit{ false };
+	FPoint3 pos = m_Transform.GetPosition();
+
+	while (counter < size)
+	{
+		normal = m_TriangleNormals[counter / 3];
+		toCenter = GetNormalized((pos + m_TriangleCenters[counter / 3]) - pointInSpace);
+
+		if (Dot(normal, -toCenter) > 0.f)
+		{
+			visibleTriangles.push_back((unsigned int)counter);
+			visibleArea += m_TriangleAreas[counter];
+		}
+
+		++counter;
+	}
+	return std::move(visibleTriangles);
 }

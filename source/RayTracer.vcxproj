@@ -95,6 +95,7 @@
     <ClInclude Include="Material_Lambert.h" />
     <ClInclude Include="Material_LambertPhong.h" />
     <ClInclude Include="Material_PBR.h" />
+    <ClInclude Include="MeshLightScene.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PerspectiveCamera.h" />
     <ClInclude Include="EMath.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="Material_Lambert.cpp" />
     <ClCompile Include="Material_LambertPhong.cpp" />
     <ClCompile Include="Material_PBR.cpp" />
+    <ClCompile Include="MeshLightScene.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PerspectiveCamera.cpp" />
     <ClCompile Include="ERenderer.cpp" />

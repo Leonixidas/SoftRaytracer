@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "DiskLightScene.h"
+#include "MeshLightScene.h"
 #include "AreaLight.h"
 #include "Material_Lambert.h"
 #include "Plane.h"
@@ -12,35 +12,36 @@
 namespace Elite
 {
 
-	DiskLightScene::DiskLightScene(const std::string& sceneName)
+	MeshLightScene::MeshLightScene(const std::string& sceneName)
 		: Scene(sceneName)
 	{
 
 	}
 
-	void DiskLightScene::Initialize()
+	void MeshLightScene::Initialize()
 	{
 		//WALLS
 		AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.65f,0.65f,0.65f}), Transform{ FPoint3{0.f,0.f,0.f}, FPoint3{0.f,0.f,0.f}} });
-		AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{0.f,10.f,0.f}, FPoint3{180.f,0.f,0.f}} });
-		AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.86f,0.86f,0.55f}), Transform{ FPoint3{0.f,0.f,-8.f}, FPoint3{90.f,0.f,0.f}} });
+		AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{0.f,8.f,0.f}, FPoint3{180.f,0.f,0.f}} });
+		AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.86f,0.86f,0.55f}), Transform{ FPoint3{0.f,0.f,-7.f}, FPoint3{90.f,0.f,0.f}} });
 		AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{-5.f,0.f,0.f}, FPoint3{0.f,0.f,-90.f}} });
 		AddGeometry(new Plane{ new Material_Lambert(RGBColor{0.7f,0.75f,0.7f}), Transform{ FPoint3{5.f,0.f,0.f}, FPoint3{0.f,0.f,90.f}} });
 
-		DiskLight* diskLight = new DiskLight{ new EmissiveMaterial(RGBColor{ 1.f,1.f,1.f }), Transform{ {0.f,7.9f,-2.f},{-180.f,0.f,0.f} },1.5f };
+		MeshLight* meshLight = new MeshLight("lowpoly_bunny.obj", new EmissiveMaterial(RGBColor{ 1.f,1.f,1.f }), { FPoint3{0.f,3.f,0.f} });
 
-		//GEO
-		AddGeometry(diskLight);
+		if (!meshLight->ReadOBJFile()) return;
+
+		AddGeometry(meshLight);
 
 		//Camera
 		PerspectiveCamera* cam = new PerspectiveCamera{ FPoint3{0.f,3.5f,12.f}, 45.f };
 		AddCamera(cam);
 
-		////Lights
-		AddLight(diskLight);
+		AddLight(meshLight);
+
 	}
 
-	void DiskLightScene::Update()
+	void MeshLightScene::Update()
 	{
 		float deltaTime = Timer::GetInstance().GetElapsed();
 		InputManager& input = InputManager::GetInstance();

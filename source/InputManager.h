@@ -19,12 +19,15 @@ namespace Elite
 
 		bool IsScreenShotTaken() { return m_TakeScreenShot; }
 
+		void Quit() { m_Quit = true; }
+
 	private:
 		const Uint8* m_pKeyboardState = nullptr;
 		Uint8 m_MouseState{};
 		std::vector<SDL_Scancode> m_ReleasedKeys;
 		int m_MouseXValue{}, m_MouseYValue{};
 		bool m_TakeScreenShot{};
+		bool m_Quit = false;
 	};
 }
 

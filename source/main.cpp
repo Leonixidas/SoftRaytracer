@@ -16,7 +16,9 @@
 #include "RayTraceScene.h"
 #include "GeometryTestScene.h"
 #include "DiskLightScene.h"
+#include "MeshLightScene.h"
 #include "BunnyScene.h"
+#include "SphereLightScene.h"
 
 void ShutDown(SDL_Window* pWindow)
 {
@@ -50,16 +52,13 @@ int main(int argc, char* args[])
 	Elite::SceneManager& sceneManager = Elite::SceneManager::GetInstance();
 	sceneManager.SetRenderer(pRenderer);
 	Elite::InputManager& inputManager = Elite::InputManager::GetInstance();
-	sceneManager.AddScene(new Elite::DiskLightScene{ "DiskTest"});
 	sceneManager.AddScene(new Elite::GeometryTestScene{ "GeoTest"});
+	sceneManager.AddScene(new Elite::MeshLightScene{ "MeshLightTest"});
+	sceneManager.AddScene(new Elite::SphereLightScene{ "SphereTest" });
+	sceneManager.AddScene(new Elite::DiskLightScene{ "DiskTest"});
 
 	std::cout << "Both scenes are initialized while initializing,\n";
 	std::cout << "check memory leaks by running the solution in debug,\nboth scenes will be initialized and the first scene will be loaded which won't take that long\n\n";
-	std::cout << "\n----Lights Controls----\n";
-	std::cout << "'K': Left light\n";
-	std::cout << "'L': Right light\n";
-	std::cout << "'O': Light in the back\n";
-	std::cout << "'J': Directional light\n";
 
 	std::cout << "\n----Scene Controls----\n";
 	std::cout << "WASD-keys for horizontal movement\n";
@@ -68,8 +67,6 @@ int main(int argc, char* args[])
 	std::cout << "Hold the left mouse button to move forward and look left and right\n";
 	std::cout << "'1': Previous scene\n";
 	std::cout << "'2': Next scene\n";
-	std::cout << "'T': Change render mode\n";
-	std::cout << "'Z': Enable/Disable shadows\n";
 	std::cout << "'X': Take a screenshot\n";
 
 	{

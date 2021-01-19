@@ -23,7 +23,7 @@ Elite::Renderer::Renderer(SDL_Window * pWindow)
 	, m_Height()
 	, m_AreShadowsEnabled(false)
 	, m_RenderMode()
-	, m_Threadpool(new Threadpool(std::thread::hardware_concurrency() + 1))
+	, m_Threadpool(new Threadpool(std::thread::hardware_concurrency()-1))
 	, m_RaysPerPixel(10)
 {
 	//Initialize
@@ -85,9 +85,13 @@ void Elite::Renderer::Render()
 	m_Threadpool->WaitFinish();
 
 
+	//SaveBackbufferToImage();
+	
+	//InputManager::GetInstance().Quit();
 	SDL_UnlockSurface(m_pBackBuffer);
 	SDL_BlitSurface(m_pBackBuffer, 0, m_pFrontBuffer, 0);
 	SDL_UpdateWindowSurface(m_pWindow);
+
 }
 
 bool Elite::Renderer::SaveBackbufferToImage() const
@@ -134,19 +138,19 @@ void Elite::Renderer::Trace(uint32_t r, uint32_t c, Scene* scene, Ray ray, FMatr
 		{
 			for (size_t j{}; j < lights.size(); ++j)
 			{
-				if (!lights[j]->IsEnabled()) continue;
+				//if (!lights[j]->IsEnabled()) continue;
 
 				hitToLight = {};
 
-				lights[j]->GetLightDirection(hit);
-				//if (!AreEqual(SqrMagnitude(hit.m_IncomingLightDirection), 1.f))
-				//	rayToLight.m_Max = Normalize(hit.m_IncomingLightDirection);
-				//else rayToLight.m_Max = FLT_MAX;
+				//lights[j]->GetLightDirection(hit);
+				/*if (!AreEqual(SqrMagnitude(hit.m_IncomingLightDirection), 1.f))
+					rayToLight.m_Max = Normalize(hit.m_IncomingLightDirection);
+				else rayToLight.m_Max = FLT_MAX;
 
-				//rayToLight.m_Direction = -hit.m_IncomingLightDirection;
-				//rayToLight.m_Origin = hit.m_HitPoint;
+				rayToLight.m_Direction = -hit.m_IncomingLightDirection;
+				rayToLight.m_Origin = hit.m_HitPoint;
 
-				/*if (m_AreShadowsEnabled)
+				if (m_AreShadowsEnabled)
 				{
 					hitToLight.m_ShadowCalc = true;
 
@@ -157,16 +161,21 @@ void Elite::Renderer::Trace(uint32_t r, uint32_t c, Scene* scene, Ray ray, FMatr
 					}
 
 					if (hitToLight.m_HitSomething) continue;
-				}*/
+				}
 
+				float dotL = Dot(hit.m_Normal, -hit.m_IncomingLightDirection);
 
-				/*switch (m_RenderMode)
+				if(dotL < 0.f) continue;
+
+				FVector3 wi{};
+				float pdf{};
+				switch (m_RenderMode)
 				{
 				case RenderMode::COMBINED:
-					finalColor += lights[j]->CalculateLight(hit) * hit.m_pMaterial->Shade(hit, -ray.m_Direction, -hit.m_IncomingLightDirection) * dotL;
+					finalColor += lights[j]->CalculateLight(hit, wi, pdf) * hit.m_pMaterial->Shade(hit, -ray.m_Direction, -hit.m_IncomingLightDirection) * dotL;
 					break;
 				case RenderMode::IRRADIANCE_ONLY:
-					finalColor += lights[j]->CalculateLight(hit) * dotL;
+					finalColor += lights[j]->CalculateLight(hit,wi, pdf) * dotL;
 					break;
 				case RenderMode::BRDF_ONLY:
 					finalColor += hit.m_pMaterial->Shade(hit, -ray.m_Direction, -hit.m_IncomingLightDirection) * dotL;

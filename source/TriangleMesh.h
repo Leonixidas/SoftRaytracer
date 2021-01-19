@@ -19,15 +19,16 @@ namespace Elite
 
 		virtual bool Hit(const Ray& ray, HitRecord& hit) const override;
 		virtual FPoint3 GetRandomSurfacePoint() const override;
+		std::vector<unsigned int> GetVisibleTriangles(const FPoint3& pointInSpace, float& visibleArea);
 
-	private:
+
+	protected:
 		std::vector<FVector3> m_Vertices;
 		std::vector<FVector3> m_TriangleNormals;
 		std::vector<FVector3> m_TriangleCenters;
 		std::vector<unsigned int> m_Indices;
 		std::vector<float> m_TriangleAreas;
 		std::string m_FilePath;
-		float m_Area;
 	};
 }
 

@@ -38,10 +38,10 @@ namespace Elite
 	}
 	FPoint3 Disk::GetRandomSurfacePoint() const
 	{
-		float theta = 2 * (float)E_PI * RandomFloat();
+		float theta = (2 * (float)E_PI) * RandomFloat();
 		float r = (float)sqrt(RandomFloat());
-		float randomX = m_Radius * r * (float)cos(theta);
-		float randomZ = m_Radius * r * (float)sin(theta);
+		float randomX = m_Radius * r * cosf(theta);
+		float randomZ = m_Radius * r * sinf(theta);
 		return FPoint3(m_Transform.GetTransformMatrix() * FPoint4(randomX, 0.f, randomZ));
 	}
 }
